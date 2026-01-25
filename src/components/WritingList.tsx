@@ -44,7 +44,7 @@ export default function WritingList() {
       height="14"
       viewBox="0 0 14 14"
       fill="none"
-      className="text-gray-500 dark:text-gray-400"
+      className="text-gray-500"
     >
       <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1" fill="none"/>
       <path d="M7 3.5V7L9.5 9.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
@@ -52,11 +52,11 @@ export default function WritingList() {
   );
 
   return (
-    <section className="py-16 px-4 sm:py-24 border-b border-gray-200 dark:border-gray-800">
+    <section className="py-16 px-4 sm:py-24 border-b border-gray-200">
       <div className="w-full max-w-[832px] mx-auto px-6 flex flex-col items-start">
         {/* WRITING Label - same style and alignment as STACK and VENTURES */}
         <h2 
-          className="text-xs uppercase font-medium mb-5 text-left text-gray-400 dark:text-gray-500"
+          className="text-xs uppercase font-medium mb-5 text-left text-gray-400"
           style={{
             letterSpacing: '0.08em',
             fontSize: '12px',
@@ -77,19 +77,19 @@ export default function WritingList() {
               style={{ gridTemplateColumns: "120px 1fr 80px", gap: "16px" }}
             >
               {/* LEFT: Date */}
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-gray-600">
                 {writing.date}
               </span>
 
               {/* CENTER: Title */}
-              <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">
+              <h3 className="text-base font-medium text-gray-900">
                 {writing.title}
               </h3>
 
               {/* RIGHT: Reading time with clock icon */}
               <div className="flex items-center justify-end gap-1.5">
                 <ClockIcon />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600">
                   {writing.readingTime}
                 </span>
               </div>

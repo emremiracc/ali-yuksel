@@ -12,12 +12,6 @@
   --font-sans: var(--font-sans-serif), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ededed;
-  }
-}
 
 body {
   background: var(--background);
@@ -101,4 +95,11 @@ p {
 
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  to { transform: scale(1); }
 }

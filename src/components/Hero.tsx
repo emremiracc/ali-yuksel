@@ -57,12 +57,11 @@ export default function Hero() {
       }
       
       // Add company name as InlineCompanyPill
-      // logoSrc can be added later when logo is available
       parts.push(
         <InlineCompanyPill
           key="company-pill"
           label={companyName}
-          logoSrc={undefined} // Placeholder for future logo
+          logoSrc="/brands/hbr.png"
         />
       );
       
@@ -79,16 +78,16 @@ export default function Hero() {
   };
 
   return (
-    <section className="mx-auto max-w-[560px] px-6 pt-32 pb-8">
+    <section className="mx-auto max-w-[560px] px-6 pt-2 pb-0">
       <div className="flex flex-col items-start text-left">
-        {/* Avatar with online indicator */}
-        <div className="relative inline-block">
+        {/* Avatar with online indicator - left-aligned */}
+        <div className="relative inline-block mb-3">
           <img
             src={avatarSrc}
             alt={`${name} avatar`}
-            width={64}
-            height={64}
-            className="w-16 h-16 rounded-xl object-cover"
+            width={56}
+            height={56}
+            className="w-14 h-14 rounded-[14px] object-cover"
           />
           {/* Green status dot - two layers: glow + dot with ring */}
           <div className="absolute -bottom-1 -right-1">
@@ -100,8 +99,8 @@ export default function Hero() {
         </div>
 
         {/* Name with verification badge - left-aligned */}
-        <div className="mt-4 inline-flex items-center gap-2">
-          <h1 className="text-2xl font-semibold leading-tight text-gray-900 dark:text-gray-50">
+        <div className="mb-1.5 inline-flex items-center gap-2">
+          <h1 className="text-3xl font-bold leading-tight text-gray-900">
             {name}
           </h1>
           {showVerificationBadge && (
@@ -113,27 +112,27 @@ export default function Hero() {
           )}
         </div>
 
-        {/* Title - left-aligned */}
-        <h2 className="mt-1 mb-6 text-base sm:text-lg text-gray-600 dark:text-gray-400 font-normal">
+        {/* Title - left-aligned, smaller, lighter */}
+        <h2 className="mb-4 text-sm text-gray-500 font-normal">
           {title}
         </h2>
 
-        {/* Description */}
-        <div className="mb-6">
-          <p className="text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+        {/* Description - left-aligned, proper line-height and max-width */}
+        <div className="mb-3 max-w-full">
+          <p className="text-[15px] leading-[1.6] text-gray-700">
             {parseBio(bio)}
           </p>
         </div>
 
-        {/* Email Copy Section */}
+        {/* Email Copy Section - left-aligned */}
         <div className="relative">
           <button
             onClick={copyEmail}
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200 rounded px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 dark:focus-visible:ring-gray-600 focus-visible:ring-offset-2 inline-flex items-center gap-1.5"
+            className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 rounded px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 inline-flex items-center gap-1.5"
             aria-label="Copy email address"
           >
             Press{" "}
-            <kbd className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-mono bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-gray-700 dark:text-gray-300">
+            <kbd className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-mono bg-gray-100 border border-gray-300 rounded text-gray-700">
               C
             </kbd>{" "}
             to copy my email
@@ -142,7 +141,7 @@ export default function Hero() {
           {/* Copied badge - subtle fade in/out */}
           {showToast && (
             <div className="absolute left-0 top-7 animate-fade-in">
-              <div className="px-2.5 py-1 bg-gray-900/90 dark:bg-gray-100/90 text-white dark:text-gray-900 text-xs rounded-full shadow-sm backdrop-blur-sm">
+              <div className="px-2.5 py-1 bg-gray-900/90 text-white text-xs rounded-full shadow-sm backdrop-blur-sm">
                 Copied
               </div>
             </div>

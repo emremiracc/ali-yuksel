@@ -61,7 +61,7 @@ export default function ContactForm() {
 
   // Icon SVG components
   const IconSVG = ({ type }: { type: string }) => {
-    const iconClass = "w-4 h-4 text-gray-600 dark:text-gray-400";
+    const iconClass = "w-4 h-4 text-gray-600";
     switch (type) {
       case "mail":
         return (
@@ -95,7 +95,7 @@ export default function ContactForm() {
 
   // External arrow icon
   const ExternalArrowIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-400 dark:text-gray-500">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-400">
       <path
         d="M6 4L12 4M12 4V10M12 4L4 12"
         stroke="currentColor"
@@ -107,11 +107,11 @@ export default function ContactForm() {
   );
 
   return (
-    <section className="py-16 px-4 sm:py-24 border-b border-gray-200 dark:border-gray-800">
+    <section className="py-16 px-4 sm:py-24 border-b border-gray-200">
       <div className="w-full max-w-[832px] mx-auto px-6 flex flex-col items-start">
         {/* CONTACT Label - same style as other section labels */}
         <h2 
-          className="text-xs uppercase font-medium mb-5 text-left text-gray-400 dark:text-gray-500"
+          className="text-xs uppercase font-medium mb-5 text-left text-gray-400"
           style={{
             letterSpacing: '0.08em',
             fontSize: '12px',
@@ -121,7 +121,7 @@ export default function ContactForm() {
         </h2>
 
         {/* Intro text */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+        <p className="text-sm text-gray-600 leading-relaxed mb-6">
           You can contact me using the form or via the links below.
         </p>
 
@@ -136,7 +136,7 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               placeholder="Name"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-50 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:border-gray-300 dark:focus:border-gray-600 transition-colors"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-gray-300 transition-colors"
             />
             <input
               type="email"
@@ -145,7 +145,7 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               placeholder="Email"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-50 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:border-gray-300 dark:focus:border-gray-600 transition-colors"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-gray-300 transition-colors"
             />
           </div>
 
@@ -157,7 +157,7 @@ export default function ContactForm() {
             required
             rows={6}
             placeholder="Message"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-50 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:border-gray-300 dark:focus:border-gray-600 transition-colors resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-gray-300 transition-colors resize-none"
           />
 
           {/* Send row: Button + Helper text */}
@@ -165,7 +165,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={status === "submitting" || status === "success"}
-              className="px-6 py-2.5 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 rounded-full border border-gray-300 bg-white text-gray-900 text-sm font-medium hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {status === "submitting"
                 ? "Sending..."
@@ -173,8 +173,8 @@ export default function ContactForm() {
                 ? "Message sent!"
                 : "Send message"}
             </button>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              or <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono">↵ Enter</kbd> to send
+            <span className="text-xs text-gray-500">
+              or <kbd className="px-1.5 py-0.5 rounded bg-gray-100 border border-gray-200 text-xs font-mono">↵ Enter</kbd> to send
             </span>
           </div>
         </form>
@@ -192,14 +192,14 @@ export default function ContactForm() {
               {/* Left: Icon + Label */}
               <div className="flex items-center gap-3">
                 <IconSVG type={link.icon} />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600">
                   {link.label}
                 </span>
               </div>
 
               {/* Right: Value + Arrow */}
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600">
                   {link.value}
                 </span>
                 <ExternalArrowIcon />
@@ -213,7 +213,7 @@ export default function ContactForm() {
           <img
             src="/signature.png"
             alt="Signature"
-            className="w-auto h-16 opacity-80 dark:opacity-70"
+            className="w-auto h-16 opacity-80"
             onError={(e) => {
               // Hide if image doesn't exist
               const target = e.target as HTMLImageElement;

@@ -1,0 +1,32 @@
+/* Work collage animations - using classes instead of inline Tailwind */
+.work-preview-fade-in {
+  animation: fadeIn 0.25s ease-in-out forwards;
+}
+
+.work-preview-zoom-in {
+  animation: zoomIn 0.25s ease-in-out forwards;
+}
+
+/* Mobile responsive adjustments for work collage */
+@media (max-width: 640px) {
+  .work-collage-mobile-adj button[style*="left: 70%"] {
+    left: 56% !important;
+    top: 44% !important;
+    transform: rotate(6deg) scale(0.92) !important;
+  }
+  .work-collage-mobile-adj button[style*="left: 48%"] {
+    left: 36% !important;
+    top: 34% !important;
+    transform: rotate(10deg) scale(0.92) !important;
+  }
+  .work-collage-mobile-adj button[style*="left: 26%"] {
+    left: 18% !important;
+    top: 44% !important;
+    transform: rotate(0deg) scale(0.98) !important;
+  }
+  .work-collage-mobile-adj button[style*="left: 6%"] {
+    left: 2% !important;
+    top: 36% !important;
+    transform: rotate(-10deg) scale(0.92) !important;
+  }
+}

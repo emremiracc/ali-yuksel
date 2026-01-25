@@ -27,7 +27,7 @@ export default function Ventures() {
 
   // Icon SVG components
   const IconSVG = ({ type }: { type: string }) => {
-    const iconClass = "text-gray-700 dark:text-gray-300";
+    const iconClass = "text-gray-700";
     switch (type) {
       case "cmd":
         // Command/⌘ icon
@@ -58,11 +58,11 @@ export default function Ventures() {
   };
 
   return (
-    <section className="py-16 px-4 sm:py-24 border-b border-gray-200 dark:border-gray-800">
+    <section className="py-16 px-4 sm:py-24 border-b border-gray-200">
       <div className="w-full max-w-[832px] mx-auto px-6 flex flex-col items-start">
         {/* VENTURES Label - same style and alignment as STACK */}
         <h2 
-          className="text-xs uppercase font-medium mb-5 text-left text-gray-400 dark:text-gray-500"
+          className="text-xs uppercase font-medium mb-5 text-left text-gray-400"
           style={{
             letterSpacing: '0.08em',
             fontSize: '12px',
@@ -79,7 +79,7 @@ export default function Ventures() {
               href={venture.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between w-full p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-neutral-50 dark:hover:bg-gray-800/50 transition-all duration-200 cursor-pointer group"
+              className="flex items-center justify-between w-full p-4 bg-white rounded-lg hover:bg-neutral-50 transition-all duration-200 cursor-pointer group"
               style={{ 
                 boxShadow: "0 0 0 0px transparent"
               }}
@@ -93,16 +93,16 @@ export default function Ventures() {
               {/* Left: Icon + Text */}
               <div className="flex items-center gap-4">
                 {/* Icon box - 32px rounded square, soft gray bg, no border */}
-                <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
                   <IconSVG type={venture.icon} />
                 </div>
 
                 {/* Title and subtitle stacked */}
                 <div className="flex flex-col min-w-0">
-                  <h3 className="text-base font-semibold leading-tight text-gray-900 dark:text-gray-100">
+                  <h3 className="text-base font-semibold leading-tight text-gray-900">
                     {venture.title}
                   </h3>
-                  <p className="text-sm leading-tight mt-0.5 text-gray-600 dark:text-gray-400">
+                  <p className="text-sm leading-tight mt-0.5 text-gray-600">
                     {venture.subtitle}
                   </p>
                 </div>

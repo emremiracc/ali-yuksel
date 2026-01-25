@@ -1,15 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
 export default function PersonalSection() {
-  // Photo data
-  const photos = [
-    { src: "/personal/photo-1.jpg", alt: "Photo 1" },
-    { src: "/personal/photo-2.jpg", alt: "Photo 2" },
-    { src: "/personal/photo-3.jpg", alt: "Photo 3" },
-    { src: "/personal/photo-4.jpg", alt: "Photo 4" },
+  // Photo data - will be filtered to only show existing images
+  const [photoErrors, setPhotoErrors] = useState<Set<string>>(new Set());
+  
+  const allPhotos = [
+    { src: "/personal/photo-1.jpg", alt: "Photo 1", originalIndex: 0 },
+    { src: "/personal/photo-2.jpg", alt: "Photo 2", originalIndex: 1 },
+    { src: "/personal/photo-3.jpg", alt: "Photo 3", originalIndex: 2 },
+    { src: "/personal/photo-4.jpg", alt: "Photo 4", originalIndex: 3 },
   ];
+  
+  const photos = allPhotos.filter(photo => !photoErrors.has(photo.src));
+
+  const handlePhotoError = (src: string) => {
+    setPhotoErrors(prev => new Set(prev).add(src));
+  };
 
   // Spotify icon SVG
   const SpotifyIcon = () => (
@@ -28,7 +37,7 @@ export default function PersonalSection() {
   );
 
   return (
-    <section className="py-16 px-4 sm:py-24 border-b border-gray-200 dark:border-gray-800">
+    <section className="py-16 px-4 sm:py-24 border-b border-gray-200">
       <style dangerouslySetInnerHTML={{ __html: `
         @media (min-width: 640px) {
           .photo-item-0 {
@@ -50,7 +59,7 @@ export default function PersonalSection() {
         <div className="space-y-6">
           {/* Row 1: PERSONAL Label */}
           <h2 
-            className="text-xs uppercase font-medium text-left text-gray-400 dark:text-gray-500"
+            className="text-xs uppercase font-medium text-left text-gray-400"
             style={{
               letterSpacing: '0.08em',
               fontSize: '12px',
@@ -60,15 +69,15 @@ export default function PersonalSection() {
           </h2>
 
           {/* Row 2: Description text */}
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p className="text-sm text-gray-600 leading-relaxed">
             In my spare time, I enjoy listening to music and taking photos with my iPhone 16 Pro
           </p>
 
           {/* Spotify Card */}
-          <div className="rounded-2xl bg-[#F3F4F6] dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700">
+          <div className="rounded-2xl bg-[#F3F4F6] p-4 border border-gray-200">
             <div className="flex items-start gap-4">
               {/* Album Image */}
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-300 dark:bg-gray-700 flex-shrink-0">
+              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-300 flex-shrink-0">
                 <Image
                   src="/personal/album.jpg"
                   alt="Luna album cover"
@@ -77,29 +86,33 @@ export default function PersonalSection() {
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = "none";
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.style.backgroundColor = "#E5E7EB";
+                    }
                   }}
                 />
               </div>
 
               {/* Track Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-gray-50 mb-1">
+                <h3 className="text-base font-semibold text-gray-900 mb-1">
                   Luna
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-sm text-gray-600 mb-4">
                   Pascal Schumacher, Echo Collective
                 </p>
 
                 {/* Bottom row */}
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500">
                     Most replayed this month
                   </span>
                   <a
                     href="https://open.spotify.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-gray-700 hover:text-gray-900 transition-colors"
                   >
                     <span>Listen on Spotify</span>
                     <SpotifyIcon />
@@ -113,36 +126,34 @@ export default function PersonalSection() {
           <div className="flex flex-col items-center w-full">
             {/* Overlapping Polaroid Stack - match Spotify card width */}
             <div className="relative w-full mx-auto" style={{ height: "clamp(240px, 60vw, 320px)", padding: 0 }}>
-              {photos.map((photo, index) => {
+              {photos.map((photo) => {
                 // Wider spread offsets - photos extend to Spotify card edges while overlapping
                 const rotations = [-8, -3, 3, 8];
                 const xOffsetsMobile = [-95, -35, 35, 95]; // Overlap on mobile with wider spread
                 const yOffsetsMobile = [0, 6, 0, 8]; // Slight vertical offsets
                 // Center photos forward (higher z-index)
                 const zIndexes = [1, 3, 4, 2]; // Middle photos in front
+                const idx = photo.originalIndex;
                 
                 return (
                   <div
-                    key={index}
-                    className={`absolute top-1/2 left-1/2 photo-item-${index}`}
+                    key={photo.src}
+                    className={`absolute top-1/2 left-1/2 photo-item-${idx}`}
                     style={{
-                      transform: `translate(calc(-50% + ${xOffsetsMobile[index]}px), calc(-50% + ${yOffsetsMobile[index]}px)) rotate(${rotations[index] * 0.6}deg)`,
-                      zIndex: zIndexes[index],
+                      transform: `translate(calc(-50% + ${xOffsetsMobile[idx]}px), calc(-50% + ${yOffsetsMobile[idx]}px)) rotate(${rotations[idx] * 0.6}deg)`,
+                      zIndex: zIndexes[idx],
                     }}
                   >
                     {/* Polaroid-style card */}
-                    <div className="w-40 h-48 sm:w-48 sm:h-60 md:w-52 md:h-64 bg-white dark:bg-gray-900 rounded-lg p-2 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <div className="relative w-full h-[calc(100%-3rem)] rounded overflow-hidden bg-gray-200 dark:bg-gray-800">
+                    <div className="w-40 h-48 sm:w-48 sm:h-60 md:w-52 md:h-64 bg-white rounded-lg p-2 shadow-lg border border-gray-200">
+                      <div className="relative w-full h-[calc(100%-3rem)] rounded overflow-hidden bg-gray-200">
                         <Image
                           src={photo.src}
                           alt={photo.alt}
                           fill
                           className="object-cover"
                           sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 208px"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = "none";
-                          }}
+                          onError={() => handlePhotoError(photo.src)}
                         />
                       </div>
                       {/* Polaroid bottom margin */}
@@ -154,13 +165,13 @@ export default function PersonalSection() {
             </div>
 
             {/* Captions below photo cluster */}
-            <div className="flex items-center justify-between w-full mt-6 text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex items-center justify-between w-full mt-6 text-xs text-gray-500">
               <span>Shot with iPhone 16 Pro</span>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                className="flex items-center gap-1.5 hover:text-gray-700 transition-colors"
               >
                 <span>See more on IG</span>
                 <InstagramIcon />

@@ -47,8 +47,8 @@ export default function TopBar() {
   );
 
   return (
-    <div className="w-full pt-6 pb-3 text-xs" style={{ color: "#9CA3AF" }}>
-      <div className="w-full max-w-[832px] mx-auto px-6 flex justify-between items-center">
+    <div className="w-full pt-12 pb-0 text-xs" style={{ color: "#9CA3AF" }}>
+      <div className="w-full max-w-[560px] mx-auto px-6 flex justify-between items-center">
         <span className="text-xs" style={{ color: "#9CA3AF" }}>
           EST. {establishedYear}
         </span>

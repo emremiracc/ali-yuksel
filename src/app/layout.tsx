@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={plusJakartaSans.variable}>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-black text-gray-900 dark:text-gray-50 antialiased">
+      <body className="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
         <TopBar />
         <main className="flex-1">{children}</main>
       </body>

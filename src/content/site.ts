@@ -133,19 +133,19 @@ const siteContent: SiteContent = {
       name: "Sarah Johnson",
       role: "CTO at StartupCo",
       quote: "Exceptional work on our platform. The attention to detail and user experience is outstanding.",
-      avatar: "/next.svg",
+      avatar: "/avatar.jpg",
     },
     {
       name: "Michael Chen",
       role: "Product Lead",
       quote: "A true professional who brings both technical expertise and creative vision to every project.",
-      avatar: "/testimonials/avatar2.jpg",
+      avatar: "/avatar.jpg",
     },
     {
       name: "Emily Davis",
       role: "Founder & CEO",
       quote: "Transformed our product with clean code and beautiful design. Highly recommend!",
-      avatar: "/testimonials/avatar3.jpg",
+      avatar: "/avatar.jpg",
     },
   ],
   stack: [

@@ -11,10 +11,8 @@ export default function DottedGrid({ className = "" }: DottedGridProps) {
         backgroundSize: "10px 10px",
       }}
     >
-      {/* Soft fade at the top for light mode */}
-      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent pointer-events-none dark:hidden" />
-      {/* Soft fade at the top for dark mode */}
-      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black to-transparent pointer-events-none hidden dark:block" />
+      {/* Soft fade at the top */}
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent pointer-events-none" />
     </div>
   );
 }
