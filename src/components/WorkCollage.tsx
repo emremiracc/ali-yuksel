@@ -1,141 +1,161 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom"; // Portal eklendi
 import Image from "next/image";
-import Link from "next/link";
 import siteContent from "../content/site";
 
 export default function WorkCollage() {
   const { works } = siteContent;
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Collage configuration matching Jacob's Framer layout
-  // Increased overlap for more "interlocked" feel
+  // Client-side render kontrolü (Portal için şart)
+  useEffect(() => {
+    setMounted(true);
+    if (selectedImage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [selectedImage]);
+
   const collageConfigs = [
     {
-      // Left card (back-left) - slightly more overlap
-      xOffset: "-42%",
-      yOffset: "-6%",
-      rotate: -10,
+      left: "22%",
+      transform: "translate(-50%, -50%) translateY(-34px) rotate(-12deg) scale(0.92)",
       zIndex: 1,
-      // Mobile adjustments
-      mobileXOffset: "-45%",
-      mobileYOffset: "-5%",
+      mobileLeft: "18%",
+      mobileTransform: "translate(-50%, -50%) translateY(-22px) rotate(-10deg) scale(0.90)",
     },
     {
-      // Center-right card (back-right) - slightly more overlap
-      xOffset: "10%",
-      yOffset: "-10%",
-      rotate: 6,
-      zIndex: 2,
-      mobileXOffset: "5%",
-      mobileYOffset: "-10%",
-    },
-    {
-      // Center-left card (front-left) - slightly more overlap
-      xOffset: "-18%",
-      yOffset: "6%",
-      rotate: -4,
-      zIndex: 3,
-      mobileXOffset: "-23%",
-      mobileYOffset: "6%",
-    },
-    {
-      // Right card (front-right) - slightly more overlap
-      xOffset: "32%",
-      yOffset: "2%",
-      rotate: 12,
+      left: "43%",
+      transform: "translate(-50%, -50%) translateY(26px) rotate(-2deg) scale(1.02)",
       zIndex: 4,
-      mobileXOffset: "22%",
-      mobileYOffset: "5%",
+      mobileLeft: "38%",
+      mobileTransform: "translate(-50%, -50%) translateY(18px) rotate(-1deg) scale(0.98)",
+    },
+    {
+      left: "61%",
+      transform: "translate(-50%, -50%) translateY(-18px) rotate(6deg) scale(0.98)",
+      zIndex: 2,
+      mobileLeft: "60%",
+      mobileTransform: "translate(-50%, -50%) translateY(-10px) rotate(5deg) scale(0.95)",
+    },
+    {
+      left: "80%",
+      transform: "translate(-50%, -50%) translateY(34px) rotate(14deg) scale(0.96)",
+      zIndex: 3,
+      mobileLeft: "84%",
+      mobileTransform: "translate(-50%, -50%) translateY(24px) rotate(12deg) scale(0.93)",
     },
   ];
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .work-collage-wrapper {
-          position: relative;
-          width: min(1100px, 92vw);
-          height: clamp(380px, 42vw, 520px);
-          margin-top: 0;
-          left: 50%;
-          transform: translateX(calc(-50% - 18px)) translateY(-54px);
-          --s: 0.92; /* Scale variable - slightly smaller */
-        }
-        .work-collage-card {
-          position: absolute;
-          width: clamp(200px, 24vw, 300px);
-          aspect-ratio: 4 / 3;
-          border-radius: 28px;
-          overflow: hidden;
-          border: 1px solid rgba(0, 0, 0, 0.06);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
-          background: #fff;
-          transform-origin: center;
-          transition: all 0.3s ease-out;
-          transform: scale(var(--s));
-          transform-style: preserve-3d;
-        }
-        .work-collage-card:hover {
-          transform: scale(calc(var(--s) * 1.02)) translateY(-8px) !important;
-          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.14);
-          z-index: 50 !important;
-        }
-        ${works.slice(0, 4).map((_, index) => {
-          const config = collageConfigs[index];
-          // Pixel offsets for more overlap: all cards moved closer horizontally
-          const pixelOffsets = [
-            { x: 14, y: 0 },   // Card 0 (leftmost): +14px X (moved right)
-            { x: -28, y: 0 },  // Card 1 (center-right): -28px X (moved left)
-            { x: 20, y: -6 },  // Card 2 (center-left): +20px X, -6px Y (moved right)
-            { x: -18, y: 0 },  // Card 3 (rightmost): -18px X (moved left)
-          ];
-          const offset = pixelOffsets[index];
-          return `
-            .work-collage-card-${index} {
-              left: calc(50% + ${config.mobileXOffset});
-              top: calc(50% + ${config.mobileYOffset});
-              transform: scale(var(--s)) rotate(${config.rotate * 0.8}deg) translate(${offset.x * 0.6}px, ${offset.y * 0.6}px);
-              z-index: ${config.zIndex};
-            }
-            @media (min-width: 641px) {
-              .work-collage-card-${index} {
-                left: calc(50% + ${config.xOffset});
-                top: calc(50% + ${config.yOffset});
-                transform: scale(var(--s)) rotate(${config.rotate}deg) translate(${offset.x}px, ${offset.y}px);
-                z-index: ${config.zIndex};
-              }
-            }
-          `;
-        }).join('\n')}
-        @media (prefers-color-scheme: dark) {
-          .work-collage-card {
-            background: #111;
-            border-color: rgba(255, 255, 255, 0.1);
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          .work-collage-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: clamp(300px, 35vw, 450px);
+            margin: 0 auto;
+            overflow: visible;
           }
-        }
-      `}} />
+
+          .work-collage-card {
+            position: absolute;
+            top: 60%;
+            width: clamp(216px, 25vw, 324px);
+            height: clamp(144px, 17vw, 216px);
+            border-radius: 22px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid rgba(255,255,255,0.85);
+            box-shadow: 0 18px 55px rgba(0,0,0,0.14);
+            transform: var(--t);
+            left: var(--l);
+            z-index: var(--z);
+            cursor: zoom-in;
+            transition: transform 220ms ease;
+          }
+
+          /* PORTAL LIGHTBOX - SAYFANIN EN ÜSTÜNE ÇIKAR */
+          .lightbox-portal {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff !important; /* Beyaz modda tam opak */
+            z-index: 2147483647 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+          }
+
+          .dark .lightbox-portal {
+            background-color: #000000 !important; /* Dark modda tam opak */
+          }
+
+          @keyframes zoomIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+          }
+
+          ${works.slice(0, 4).map((_, index) => {
+            const c = collageConfigs[index];
+            return `
+              .work-collage-card-${index} {
+                --l: ${c.mobileLeft}; --t: ${c.mobileTransform}; --z: ${c.zIndex};
+              }
+              @media (min-width: 641px) {
+                .work-collage-card-${index} {
+                  --l: ${c.left}; --t: ${c.transform}; --z: ${c.zIndex};
+                }
+              }
+            `;
+          }).join("\n")}
+        `,
+        }}
+      />
 
       <div className="work-collage-wrapper">
-        {works.slice(0, 4).map((work, index) => {
-          return (
-            <Link
-              key={index}
-              href={work.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`work-collage-card work-collage-card-${index} group cursor-pointer`}
-            >
-              <Image
-                src={work.imageSrc}
-                alt={work.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 200px, (max-width: 1024px) 24vw, 300px"
-              />
-            </Link>
-          );
-        })}
+        {works.slice(0, 4).map((work, index) => (
+          <div
+            key={index}
+            className={`work-collage-card work-collage-card-${index}`}
+            onClick={() => setSelectedImage(work.imageSrc)}
+          >
+            <Image
+              src={work.imageSrc}
+              alt={work.title}
+              fill
+              className="object-cover"
+              sizes="324px"
+              priority={index === 1}
+            />
+          </div>
+        ))}
       </div>
+
+      {/* PORTAL KULLANIMI: Arkadaki 'WORK' yazısının sızmasını fiziksel olarak engeller */}
+      {selectedImage && mounted && createPortal(
+        <div className="lightbox-portal" onClick={() => setSelectedImage(null)}>
+          <div className="relative w-[85vw] h-[85vh] animate-[zoomIn_0.2s_ease-out]">
+            <Image
+              src={selectedImage}
+              alt="Project View"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>,
+        document.body
+      )}
     </>
   );
 }

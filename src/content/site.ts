@@ -62,7 +62,7 @@ export type SiteContent = {
 };
 
 const siteContent: SiteContent = {
-  establishedYear: 2022,
+  establishedYear: 1997,
   email: "aliyuks@outlook.com",
   avatarSrc: "/avatar.jpg",
   name: "Ali Yüksel",

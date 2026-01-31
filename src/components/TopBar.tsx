@@ -4,15 +4,11 @@ import { useEffect, useState } from "react";
 import siteContent from "../content/site";
 
 export default function TopBar() {
-  const { establishedYear } = siteContent;
   const [timeStr, setTimeStr] = useState("");
 
   useEffect(() => {
     function updateTime() {
-      // Get current time in GMT+3 (Türkiye saati / Europe/Istanbul)
       const now = new Date();
-      
-      // Format as HH:MM:SS GMT+3 using Intl.DateTimeFormat
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: "Europe/Istanbul",
         hour12: false,
@@ -20,43 +16,42 @@ export default function TopBar() {
         minute: "2-digit",
         second: "2-digit",
       });
-      
       const timeString = formatter.format(now);
       setTimeStr(`${timeString} GMT+3`);
     }
-    
+
     updateTime();
-    // Update every second
     const id = setInterval(updateTime, 1000);
     return () => clearInterval(id);
   }, []);
 
-  // Clock icon SVG
   const ClockIcon = () => (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
-      className="w-3.5 h-3.5"
-      style={{ color: "#9CA3AF" }}
-    >
-      <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1" fill="none"/>
-      <path d="M7 3.5V7L9.5 9.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="w-3 h-3">
+      <circle cx="6" cy="6" r="5.5" stroke="currentColor" strokeWidth="1" fill="none" />
+      <path d="M6 3V6L8 8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
     </svg>
   );
 
+  const establishedYear = (siteContent as any).establishedYear;
+  const established = (siteContent as any).established;
+  const establishedText =
+    (typeof established === "string" && established.trim()) ||
+    (typeof establishedYear === "number" ? `EST. ${establishedYear}` : `EST. ${establishedYear ?? ""}`);
+
   return (
-    <div className="w-full pt-6 pb-3 text-xs" style={{ color: "#9CA3AF" }}>
-      <div className="w-full max-w-[832px] mx-auto px-6 flex justify-between items-center">
-        <span className="text-xs" style={{ color: "#9CA3AF" }}>
-          EST. {establishedYear}
-        </span>
-        <div className="flex items-center gap-1.5">
-          <ClockIcon />
-          <span className="text-xs" style={{ color: "#9CA3AF" }}>
-            {timeStr}
-          </span>
+    <div className="w-full">
+      {/* max-w'yi Hero ile aynı yapıyoruz */}
+      <div className="mx-auto max-w-[640px] px-6 pt-8 pb-4">
+        <div
+          className="flex items-center justify-between text-[13px] leading-none"
+          style={{ color: "#9CA3AF" }}
+        >
+          <span className="text-[13px] leading-none">{establishedText}</span>
+
+          <div className="flex items-center gap-1.5">
+            <ClockIcon />
+            <span>{timeStr}</span>
+          </div>
         </div>
       </div>
     </div>

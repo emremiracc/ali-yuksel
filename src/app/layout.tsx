@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import TopBar from "../components/TopBar";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans-serif",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={plusJakartaSans.variable}>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-black text-gray-900 dark:text-gray-50 antialiased">
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen flex flex-col bg-white dark:bg-black text-[#171717] dark:text-[#ededed] antialiased">
         <TopBar />
         <main className="flex-1">{children}</main>
       </body>

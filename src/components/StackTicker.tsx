@@ -1,48 +1,57 @@
 "use client";
 
-export default function StackTicker() {
-  // Stack logos array - matching Jacob's site (5 logos only)
-  const stack = [
-    { name: "Framer", src: "/stack/framer.jpg", href: "https://www.framer.com" },
-    { name: "Figma", src: "/stack/figma.jpg", href: "https://www.figma.com" },
-    { name: "GitHub", src: "/stack/github.jpg", href: "https://github.com" },
-    { name: "OpenAI", src: "/stack/openai.jpg", href: "https://openai.com" },
-    { name: "Spotify", src: "/stack/spotify.jpg", href: "https://www.spotify.com" },
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Stack() {
+  const stackItems = [
+    { name: "Framer", logo: "/stack/framer.jpg", url: "https://framer.com" },
+    { name: "Figma", logo: "/stack/figma.jpg", url: "https://figma.com" },
+    { name: "GitHub", logo: "/stack/github.jpg", url: "https://github.com" },
+    { name: "OpenAI", logo: "/stack/openai.jpg", url: "https://openai.com" },
+    { name: "Spotify", logo: "/stack/spotify.jpg", url: "https://spotify.com" },
+    { name: "Arc", logo: "/stack/arc.jpg", url: "https://arc.net" },
+    { name: "Raycast", logo: "/stack/raycast.jpg", url: "https://raycast.com" },
+    { name: "Cursor", logo: "/stack/cursor.jpg", url: "https://cursor.com" },
+    { name: "Stripe", logo: "/stack/stripe.jpg", url: "https://stripe.com" },
+    { name: "Superhuman", logo: "/stack/superhuman.jpg", url: "https://superhuman.com" },
   ];
 
   return (
-    <section className="py-16 px-4 sm:py-24 border-b border-gray-200 dark:border-gray-800">
-      <div className="w-full max-w-[832px] mx-auto px-6 flex flex-col items-start">
-        {/* STACK Label - same style as Work/Experience/Testimonials labels, left-aligned */}
-        <h2 
-          className="text-xs uppercase font-medium mb-5 text-left text-gray-400 dark:text-gray-500"
-          style={{
-            letterSpacing: '0.08em',
-            fontSize: '12px',
-          }}
-        >
+    /* WorkGrid ve Experience ile dikey hiza: max-w-[640px] */
+    <section className="mx-auto max-w-[640px] px-6 py-16">
+      
+      {/* BAŞLIK: Turuncu çizgi hizası korunuyor */}
+      <div className="mb-10">
+        <h2 className="text-xs uppercase tracking-widest font-medium text-gray-400 dark:text-gray-500">
           STACK
         </h2>
+      </div>
 
-        {/* Logo icon row - left-aligned, single row, 28px icons (h-7 w-7), 18px gap */}
-        <div className="flex flex-nowrap justify-start items-center" style={{ gap: "18px" }}>
-          {stack.map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-opacity duration-200 ease-in-out opacity-90 hover:opacity-100"
-              aria-label={item.name}
-            >
-              <img
-                src={item.src}
+      {/* İKON DİZİLİMİ: justify-between ile turuncu çizgiler arası tam doluyor */}
+      <div className="flex flex-row items-center justify-between w-full">
+        {stackItems.map((item, index) => (
+          <Link 
+            key={index}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            /* 48px boyut referans görselle tam uyumlu duracaktır */
+            className="group relative w-12 h-12 transition-all duration-300 hover:scale-110 active:scale-95 flex-shrink-0"
+            title={item.name}
+          >
+            {/* İkon Çerçevesi */}
+            <div className="relative w-full h-full overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm bg-white dark:bg-black">
+              <Image
+                src={item.logo}
                 alt={item.name}
-                className="h-7 w-7 object-contain"
+                fill
+                sizes="48px"
+                className="object-cover transition-all duration-300"
               />
-            </a>
-          ))}
-        </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   );

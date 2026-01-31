@@ -1,36 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useCallback, useEffect, useState } from "react";
 import siteContent from "../content/site";
 import InlineCompanyPill from "./InlineCompanyPill";
 
 export default function Hero() {
-  const { avatarSrc, name, title, bio, email, showCompanyLogo, showVerificationBadge } = siteContent;
-  const [copied, setCopied] = useState(false);
+  const { avatarSrc, name, title, bio, email, showVerificationBadge } = siteContent as any;
   const [showToast, setShowToast] = useState(false);
 
   const copyEmail = useCallback(() => {
+    if (!email) return;
     navigator.clipboard.writeText(email);
-    setCopied(true);
     setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-      setTimeout(() => setCopied(false), 300);
-    }, 1500);
+    const t = setTimeout(() => setShowToast(false), 1500);
+    return () => clearTimeout(t);
   }, [email]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Handle both 'c' and 'C' keys
       if ((e.key === "c" || e.key === "C") && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        const activeElement = document.activeElement;
-        // Don't trigger copy while typing in input/textarea/contenteditable
+        const activeElement = document.activeElement as HTMLElement | null;
         const isEditable =
           activeElement?.tagName === "INPUT" ||
           activeElement?.tagName === "TEXTAREA" ||
           activeElement?.getAttribute("contenteditable") === "true";
-        
+
         if (!isEditable) {
           e.preventDefault();
           copyEmail();
@@ -42,36 +36,26 @@ export default function Hero() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [copyEmail]);
 
-  // Parse bio text and handle "Harvard Business Review" with InlineCompanyPill
   const parseBio = (text: string) => {
     const parts: (string | React.ReactElement)[] = [];
     const companyName = "Harvard Business Review";
-    
-    // Check if company name exists in text
+
     if (text.includes(companyName)) {
       const index = text.indexOf(companyName);
-      
-      // Add text before company name
-      if (index > 0) {
-        parts.push(text.slice(0, index));
-      }
-      
-      // Add company name as InlineCompanyPill
-      // logoSrc can be added later when logo is available
+      if (index > 0) parts.push(text.slice(0, index));
+
       parts.push(
-        <InlineCompanyPill
-          key="company-pill"
-          label={companyName}
-          logoSrc={undefined} // Placeholder for future logo
+        <InlineCompanyPill 
+          key="company-pill" 
+          label={companyName} 
+          logoSrc="/images/hbr-logo.png" // Sadece burayı güncelledik patron
         />
       );
-      
-      // Add remaining text after company name
+
       if (index + companyName.length < text.length) {
         parts.push(text.slice(index + companyName.length));
       }
     } else {
-      // No special handling needed, just return the text
       parts.push(text);
     }
 
@@ -79,70 +63,72 @@ export default function Hero() {
   };
 
   return (
-    <section className="mx-auto max-w-[560px] px-6 pt-32 pb-8">
+    <section className="mx-auto max-w-[640px] px-6 pt-4 pb-0">
       <div className="flex flex-col items-start text-left">
         {/* Avatar with online indicator */}
-        <div className="relative inline-block">
+        <div className="relative inline-block mb-3">
           <img
             src={avatarSrc}
             alt={`${name} avatar`}
-            width={64}
-            height={64}
-            className="w-16 h-16 rounded-xl object-cover"
+            width={56}
+            height={56}
+            className="w-14 h-14 rounded-[14px] object-cover ring-1 ring-black/10 dark:ring-white/10"
           />
-          {/* Green status dot - two layers: glow + dot with ring */}
-          <div className="absolute -bottom-1 -right-1">
-            {/* Outer layer: soft green glow */}
-            <span className="absolute inset-0 rounded-full bg-green-500 blur-[6px] opacity-35 scale-150" />
-            {/* Inner layer: dot with white ring */}
-            <span className="relative block h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-white" />
-          </div>
+          <span className="absolute -bottom-0.5 -right-0.5 block h-3 w-3 rounded-full bg-[#22c55e] ring-2 ring-white dark:ring-[#0a0a0a]" />
         </div>
 
-        {/* Name with verification badge - left-aligned */}
-        <div className="mt-4 inline-flex items-center gap-2">
-          <h1 className="text-2xl font-semibold leading-tight text-gray-900 dark:text-gray-50">
+        {/* Name with verification badge */}
+        <div className="mb-2 inline-flex items-center gap-2">
+          <h1 className="text-[24px] font-semibold leading-[1.1] tracking-[-0.02em] text-[#171717] dark:text-[#ededed]">
             {name}
           </h1>
-          {showVerificationBadge && (
-            <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 shadow-sm">
-              <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+
+          {!!showVerificationBadge && (
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#3b82f6]">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-3 w-3"
+                fill="none"
+                stroke="white"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </span>
           )}
         </div>
 
-        {/* Title - left-aligned */}
-        <h2 className="mt-1 mb-6 text-base sm:text-lg text-gray-600 dark:text-gray-400 font-normal">
+        {/* Subtitle */}
+        <h2 className="mb-5 text-[15px] leading-tight text-neutral-500 dark:text-neutral-400 font-normal">
           {title}
         </h2>
 
-        {/* Description */}
-        <div className="mb-6">
-          <p className="text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+        {/* Description with inline pill */}
+        <div className="mb-8">
+          <p className="text-[16.5px] leading-[26px] text-[#737373] dark:text-[#a3a3a3]">
             {parseBio(bio)}
           </p>
         </div>
 
         {/* Email Copy Section */}
-        <div className="relative">
+        <div className="relative mb-0">
           <button
-            onClick={copyEmail}
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200 rounded px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 dark:focus-visible:ring-gray-600 focus-visible:ring-offset-2 inline-flex items-center gap-1.5"
+            onClick={() => copyEmail()}
+            className="text-[14px] leading-[1.4] text-[#737373] dark:text-[#a3a3a3] hover:text-[#171717] dark:hover:text-[#ededed] transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none"
             aria-label="Copy email address"
           >
             Press{" "}
-            <kbd className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-mono bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded text-gray-700 dark:text-gray-300">
+            <kbd className="inline-flex items-center justify-center h-5 px-1.5 text-[11px] font-medium bg-[#f5f5f5] dark:bg-[#262626] border border-[#e5e5e5] dark:border-[#404040] rounded-[4px] text-[#171717] dark:text-[#ededed]">
               C
             </kbd>{" "}
             to copy my email
           </button>
 
-          {/* Copied badge - subtle fade in/out */}
           {showToast && (
             <div className="absolute left-0 top-7 animate-fade-in">
-              <div className="px-2.5 py-1 bg-gray-900/90 dark:bg-gray-100/90 text-white dark:text-gray-900 text-xs rounded-full shadow-sm backdrop-blur-sm">
+              <div className="px-2.5 py-1 bg-[#171717] dark:bg-[#ededed] text-white dark:text-[#171717] text-[12px] rounded-full">
                 Copied
               </div>
             </div>

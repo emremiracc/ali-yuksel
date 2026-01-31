@@ -5,13 +5,13 @@ import WorkCollage from "./WorkCollage";
 export default function WorkGrid() {
 
   return (
-    <section className="pt-8 pb-8">
+    <section className="mt-[48px] pb-8">
       {/* Work intro - same container as hero, left-aligned */}
-      <div className="mx-auto max-w-[560px] px-6">
-        <h2 className="text-xs uppercase tracking-widest font-medium mb-3 text-gray-500 dark:text-gray-500">
+      <div className="mx-auto max-w-[640px] px-6 text-left relative z-[5]">
+        <h2 className="text-xs uppercase tracking-widest font-medium mb-3 text-gray-500 dark:text-gray-500" style={{ opacity: 1 }}>
           WORK
         </h2>
-        <p className="text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+        <p className="text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed" style={{ opacity: 1 }}>
           Below are some select projects, full walkthroughs on request
         </p>
       </div>
@@ -20,10 +20,10 @@ export default function WorkGrid() {
       <div className="relative min-h-[500px] pb-8 mt-0">
         {/* Dotted grid background - full width, matching Jacob's style */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-0 pointer-events-none"
           style={{
-            backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px)",
-            backgroundSize: "8.5px 8.5px",
+            backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.07) 0.8px, transparent 0.8px)",
+            backgroundSize: "6px 6px",
           }}
         >
           {/* Soft fade at the top */}
@@ -31,7 +31,7 @@ export default function WorkGrid() {
         </div>
 
         {/* Work collage - floating overlapping images */}
-        <div className="relative z-10 pt-0 pb-8">
+        <div className="relative z-[1] pt-0 pb-8" style={{ marginTop: '-40px' }}>
           <WorkCollage />
         </div>
       </div>

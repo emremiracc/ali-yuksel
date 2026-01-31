@@ -7,13 +7,13 @@ import Ventures from "../components/Ventures";
 import WritingList from "../components/WritingList";
 import PersonalSection from "../components/PersonalSection";
 import ContactForm from "../components/ContactForm";
+import Footer from "../components/Footer"; // Burayı ekledik
 
 export default function HomePage() {
   return (
     <>
       <Hero />
       <WorkGrid />
-      {/* Experience and Testimonials wrapper - shared CSS variable */}
       <div style={{ "--timeline-col": "220px" } as React.CSSProperties}>
         <ExperienceTimeline />
         <Testimonials />
@@ -23,6 +23,7 @@ export default function HomePage() {
       <WritingList />
       <PersonalSection />
       <ContactForm />
+      <Footer /> {/* Burayı ekledik */}
     </>
   );
 }
